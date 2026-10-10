@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    hostname: backend-host
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
+    networks:
+      - hello-docker
+  frontend:
+    build: frontend
+    hostname: frontend-host
+    volumes:
+      - ./frontend:/app
+    environment:
+      - BACKEND_URL=http://backend:8000
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    networks:
+      - hello-docker
+networks:
+  hello-docker: {}
